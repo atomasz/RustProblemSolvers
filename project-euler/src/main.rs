@@ -1,4 +1,6 @@
-use std::collections::HashMap;
+use rand::{Rng, rngs::ThreadRng};
+
+mod problems { pub mod sum_two; }
 
 mod euler_one;
 mod euler_two;
@@ -6,19 +8,17 @@ mod euler_two;
 fn main() {
     euler_one::project_euler_question_one();
     euler_two::project_euler_question_two();
+
+    test_sum_two();
 }
 
-pub fn two_sum(nums: Vec<i32>, target: i32) -> Vec<i32> {
-    let mut numberIndex = HashMap::new();
-    let mut result:Vec<i32> = Vec::new();
-    for (i, num) in nums.iter().enumerate() {
-        let complement = target - num;
-        if numberIndex.contains_key(&complement) {
-            result.push(*numberIndex.get(&complement).unwrap());
-            result.push(i as i32);
-            return result;
-        }
-        numberIndex.insert(num,i as i32);
-    }
-    result
+fn test_sum_two() {
+    let mut rng = rand::thread_rng();
+    let length_one: u8 = rng.gen_range(5..20);
+    let rng_vector = create_random_vec_of_int(length_one, rng);
+    println!("{:?}", rng_vector);
+}
+
+fn create_random_vec_of_int(length: u8, mut rng: ThreadRng) -> Vec<i32> {
+    (0..length).map(|_| rng.gen_range(0..1000)).collect()
 }
